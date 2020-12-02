@@ -11,9 +11,14 @@ int main() {
   sort(entries.begin(), entries.end());
 
   for(auto first : entries) {
-    if (binary_search(entries.begin(), entries.end(), 2020 - first)) {
-      cout << first * (2020 - first) << '\n';
-      break;
+    for(auto second : entries) {
+      if (binary_search(entries.begin(), entries.end(), 2020 - first - second)) {
+        cout << first * second * (2020 - first - second) << '\n';
+        goto end;
+      }
     }
   }
+ end:
+
+  return 0;
 }
