@@ -1,15 +1,12 @@
 #include <algorithm>
 #include <iostream>
+#include <iterator>
 #include <vector>
 using namespace std;
 
 int main() {
-  vector<int> entries;
-
-  int entry;
-  while (cin >> entry) {
-    entries.push_back(entry);
-  }
+  istream_iterator<int> begin(cin), end;
+  vector<int> entries(begin, end);
 
   sort(entries.begin(), entries.end());
 
