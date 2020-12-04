@@ -1,3 +1,5 @@
+#   -*- mode: makefile; -*-
+
 GCC_WFLAGS=	-Wall -Weffc++ -pedantic  \
     -pedantic-errors -Wextra -Waggregate-return -Wcast-align \
     -Wcast-qual  -Wchar-subscripts  -Wcomment -Wconversion \
