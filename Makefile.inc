@@ -27,7 +27,8 @@ GCC_FLAGS=	-D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS \
 		-fasynchronous-unwind-tables -fexceptions -fpie -Wl,-pie \
 		-fstack-clash-protection -fstack-protector-all \
 		-g -grecord-gcc-switches -fcf-protection -O2 -pipe \
-		-Wl,-z,defs -Wl,-z,now -Wl,-z,relro
+		-Wl,-z,defs -Wl,-z,now -Wl,-z,relro \
+		-std=c++2a
 
 CPPFLAGS+=	${GCC_FLAGS} ${GCC_WFLAGS}
 
