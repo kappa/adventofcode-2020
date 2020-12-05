@@ -34,7 +34,7 @@ int main()
 
   if (is_valid(cur_passport)) ++valid;
 
-  std::cout << valid << "\n";
+  std::cout << valid << '\n';
 
   return 0;
 }

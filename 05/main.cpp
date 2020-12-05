@@ -1,14 +1,13 @@
 #include <algorithm>
 #include <iostream>
 
-unsigned binary(const std::string &str, const char one) {
-  unsigned rv = 0;
+int binary(const std::string &str, const char one) {
+  int rv = 0;
 
-  unsigned two = 1;
+  int twos = 1;
   for(auto ch = str.rbegin(); ch < str.rend(); ++ch) {
-    if (*ch == one)
-      rv += two;
-    two *= 2;
+    if (*ch == one) rv += twos;
+    twos *= 2;
   }
 
   return rv;
@@ -16,14 +15,14 @@ unsigned binary(const std::string &str, const char one) {
 
 int main()
 {
-  std::string line;
+  int max_id = 0;
 
-  unsigned max_id = 0;
+  std::string line;
   while(std::cin >> line) {
     max_id = std::max(max_id, binary(line.substr(0, 7), 'B') * 8 + binary(line.substr(7), 'R'));
   }
 
-  std::cout << max_id << "\n";
+  std::cout << max_id << '\n';
 
   return 0;
 }

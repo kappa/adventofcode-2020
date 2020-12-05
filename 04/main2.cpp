@@ -28,7 +28,7 @@ bool valid_values(const passport_t& passport) {
   if (!valid_year(passport.at("eyr"), 2020, 2030))
     return false;
 
-  const std::regex hgt_re("(\\d+)(in|cm)");
+  const std::regex hgt_re(R"(\d+)(in|cm)");
   std::smatch m;
   if (std::regex_match(passport.at("hgt"), m, hgt_re)) {
     const int value = std::stoi(m[1]);
@@ -39,9 +39,9 @@ bool valid_values(const passport_t& passport) {
   } else
     return false;
 
-  const std::regex hcl_re("#[0-9a-f]{6}");
-  const std::regex ecl_re("amb|blu|brn|gry|grn|hzl|oth");
-  const std::regex pid_re("[0-9]{9}");
+  const std::regex hcl_re(R"#[0-9a-f]{6}");
+  const std::regex ecl_re(R"amb|blu|brn|gry|grn|hzl|oth");
+  const std::regex pid_re(R"[0-9]{9}");
   if (!std::regex_match(passport.at("hcl"), hcl_re)
       || !std::regex_match(passport.at("ecl"), ecl_re)
       || !std::regex_match(passport.at("pid"), pid_re))
@@ -64,11 +64,9 @@ int main()
 {
   int valid = 0;
 
-  std::unordered_set<std::string> seven_fields{"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"};
   passport_t cur_passport{};
 
   std::string line;
-
   while(std::getline(std::cin, line)) {
     if (line.empty()) {
       if (is_valid(cur_passport))
@@ -76,7 +74,7 @@ int main()
       cur_passport.clear();
     } else {
       std::istringstream words(line);
-      std::string word = "";
+      std::string word;
       while (words >> word) {
         const auto key = word.substr(0, 3);
         if (key != "cid")
@@ -88,7 +86,7 @@ int main()
   if (is_valid(cur_passport))
     ++valid;
 
-  std::cout << valid << "\n";
+  std::cout << valid << '\n';
 
   return 0;
 }
