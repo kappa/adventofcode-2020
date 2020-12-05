@@ -10,8 +10,10 @@ using passport_t = std::unordered_map<std::string, std::string>;
 
 bool valid_values(passport_t passport) {
   const std::regex yr_re("\\d{4}");
-
   const std::regex hgt_re("(\\d+)(in|cm)");
+  const std::regex hcl_re("#[0-9a-f]{6}");
+  const std::regex ecl_re("amb|blu|brn|gry|grn|hzl|oth");
+  const std::regex pid_re("[0-9]{9}");
 
   std::smatch m;
 
@@ -42,10 +44,6 @@ bool valid_values(passport_t passport) {
   } else {
     return false;
   }
-
-  const std::regex hcl_re("#[0-9a-f]{6}");
-  const std::regex ecl_re("amb|blu|brn|gry|grn|hzl|oth");
-  const std::regex pid_re("[0-9]{9}");
 
   if (!std::regex_match(passport["hcl"], hcl_re))
     return false;
