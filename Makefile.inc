@@ -1,7 +1,7 @@
 #   -*- mode: makefile; -*-
 
 GCC_WFLAGS=	-Wall -Weffc++ -pedantic  \
-    -pedantic-errors -Wextra -Waggregate-return -Wcast-align \
+    -pedantic-errors -Wextra -Wcast-align \
     -Wcast-qual  -Wchar-subscripts  -Wcomment -Wconversion \
     -Wdisabled-optimization \
     -Werror -Wfloat-equal  -Wformat  -Wformat=2 \
@@ -36,7 +36,7 @@ all: main
 
 ifneq (,$(wildcard ./main2.cpp))
 all: main2
-ndif
+endif
 
 clean:
 		rm -f main main2
