@@ -32,8 +32,11 @@ GCC_FLAGS=	-D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS \
 
 CPPFLAGS+=	${GCC_FLAGS} ${GCC_WFLAGS}
 
-main:	main.cpp
-main2:	main2.cpp
+all: main
+
+ifneq (,$(wildcard ./main2.cpp))
+all: main2
+ndif
 
 clean:
 		rm -f main main2
