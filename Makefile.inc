@@ -32,11 +32,24 @@ GCC_FLAGS=	-D_FORTIFY_SOURCE=2 -D_GLIBCXX_ASSERTIONS \
 
 CPPFLAGS+=	${GCC_FLAGS} ${GCC_WFLAGS}
 
-all: main
+CLANGBIN=		clang++-8
+CLANGFLAGS= -Wall -std=c++2a
 
-ifneq (,$(wildcard ./main2.cpp))
-all: main2
-endif
+CLANG=			${CLANGBIN} ${CLANGFLAGS}
+
+all: main
 
 clean:
 		rm -f main main2
+
+ifneq (,$(wildcard ./main2.cpp))
+all: main2
+
+clang: main2.cpp
+endif
+
+clang: main.cpp
+		${CLANG} -o main main.cpp
+ifneq (,$(wildcard ./main2.cpp))
+		${CLANG} -o main2 main2.cpp
+endif

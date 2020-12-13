@@ -2,18 +2,17 @@
 #include <iostream>
 #include <iterator>
 #include <vector>
-using namespace std;
 
 int main() {
-  istream_iterator<int> begin(cin), end;
-  vector<int> entries(begin, end);
+  std::vector<int> entries(std::istream_iterator<int>(std::cin),
+                           std::istream_iterator<int>{});
 
-  sort(entries.begin(), entries.end());
+  std::sort(entries.begin(), entries.end());
 
-  for(auto first : entries) {
-    if (binary_search(entries.begin(), entries.end(), 2020 - first)) {
-      cout << first * (2020 - first) << '\n';
+  for (auto const first : entries)
+    if (auto const second = 2020 - first;
+        std::binary_search(entries.begin(), entries.end(), second)) {
+      std::cout << first * second << std::endl;
       break;
     }
-  }
 }
