@@ -40,7 +40,7 @@ CLANG=			${CLANGBIN} ${CLANGFLAGS}
 all: main
 
 clean:
-		rm -f main main2
+		rm -f main main2 main3
 
 ifneq (,$(wildcard ./main2.cpp))
 all: main2
