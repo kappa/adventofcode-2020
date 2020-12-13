@@ -1,8 +1,32 @@
 #include <algorithm>
 #include <iostream>
 #include <iterator>
+#include <functional>
+#include <numeric>
 #include <sstream>
 #include <vector>
+
+constexpr
+long long modulo(const long long a, const long long b) {
+  const auto result = a % b;
+  return result >= 0 ? result : result + b;
+}
+
+constexpr
+long long power_mod(const long long base, const int power, const int mod) {
+  auto rv = modulo(base, mod);
+
+  for (auto i = 0; i < power - 1; ++i)
+    rv = modulo(rv * base, mod);
+
+  return rv;
+}
+
+// Fermat's little theorem
+constexpr
+long long mulinv_mod(const long long num, const int mod) {
+  return power_mod(num, mod - 2, mod);
+}
 
 int main()
 {
@@ -10,59 +34,31 @@ int main()
   std::getline(std::cin, line);
   std::getline(std::cin, line);
 
-  std::vector<int> buses;
+  struct bus_t {
+    int a, r;
+  };
+
+  std::vector<bus_t> buses;
   std::istringstream is(line);
-  for(std::string w; std::getline(is, w, ',');) {
-    const int bus = w == "x" ? -1 : std::stoi(w);
-    buses.push_back(bus);
+  std::string w;
+  for(int i = 0; std::getline(is, w, ','); ++i) {
+    if (w != "x")
+      buses.push_back(bus_t{std::stoi(w), i % std::stoi(w)});
   }
 
-  long int max_bus = 0, max_i = -1;
-  for(auto i = 0ul; i < buses.size(); ++i)
-    if (buses[i] > max_bus) {
-      max_bus = buses[i];
-      max_i = i;
-    }
+  long long m = 1;
+  for(auto bus : buses)
+    m *= bus.a;
 
-  for (int i = 0; i < (int)buses.size(); ++i) {
-    const auto bus = buses[i];
-    std::cerr << bus << " @ " << i << std::endl;
+  long long x = 0;
+  for (auto bus : buses) {
+    const auto mi = m / bus.a;
+    const auto minv = mulinv_mod(mi, bus.a);
+
+    x = modulo(x + (bus.a - bus.r) * mi * minv, m);
   }
 
-  std::cerr << max_bus << " max " << max_i << std::endl;
-
-  // auto delay = 116833700000000ul / max_bus * max_bus + max_i;
-  auto delay = 100000000000000ul / max_bus * max_bus + (max_bus - max_i);
-  for (;;) {
-    for (int i = 0; i < (int)buses.size(); ++i) {
-      const auto bus = buses[i];
-      if (bus == -1)
-        continue;
-
-      auto wait = delay % bus == 0 ? 0 : delay / bus * bus + bus - delay;
-      auto need_wait = i % bus;
-
-      // std::cerr << i << " -> " << bus << " wait: " << wait << std::endl;
-
-      // if (i == 0) {
-      //   std::cerr << "0 -> " << bus << " wait: " << wait << std::endl;
-      // }
-
-      if ((int)wait != need_wait)
-        goto skip;
-      if (i != 0 && i != 7 && i != 13 && i != 27 && i != 32)
-        std::cerr << "Match! for " << bus << "[" << i << "] with wait "
-                  << wait << std::endl;
-    }
-    break;
-
-  skip:
-    delay += max_bus;
-    if (delay % 100000000 == 0)
-      std::cerr << "delay " << delay << std::endl;
-  }
-
-  std::cout << delay << std::endl;
+  std::cout << modulo(x, m) << std::endl;
 
   return 0;
 }
