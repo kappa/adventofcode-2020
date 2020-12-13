@@ -9,7 +9,7 @@ GCC_WFLAGS=	-Wall -Weffc++ -pedantic  \
     -Wformat-y2k \
     -Wimport  -Winit-self  -Winline \
     -Winvalid-pch   \
-    -Wunsafe-loop-optimizations  -Wlong-long -Wmissing-braces \
+    -Wunsafe-loop-optimizations -Wmissing-braces \
     -Wmissing-field-initializers -Wmissing-format-attribute   \
     -Wmissing-include-dirs -Wmissing-noreturn \
     -Wpacked  -Wparentheses  -Wpointer-arith \
