@@ -24,8 +24,7 @@ end:
   return trees;
 }
 
-int main()
-{
+int main() {
   const long product =
       slope(1, 1)
     * slope(1, 3)

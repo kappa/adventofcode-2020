@@ -1,40 +1,40 @@
 #include <iostream>
-#include <unordered_set>
+#include <set>
 #include <sstream>
 
-using passport_t = std::unordered_set<std::string>;
+using passport_t = std::set<std::string>;
 
-bool is_valid(const passport_t& cur_passport) {
-  const static passport_t seven_fields{"byr", "iyr", "eyr", "hgt", "hcl", "ecl", "pid"};
+bool is_valid(const passport_t &cur_passport) {
+  const static passport_t seven_fields{"byr", "iyr", "eyr", "hgt",
+                                       "hcl", "ecl", "pid"};
 
   return cur_passport == seven_fields;
 }
 
-int main()
-{
+int main() {
   int valid = 0;
 
-  std::unordered_set<std::string> cur_passport{};
+  passport_t cur_passport{};
 
-  std::string line;
-
-  while(std::getline(std::cin, line)) {
+  for (std::string line; std::getline(std::cin, line);) {
     if (line.empty()) {
-      if (is_valid(cur_passport)) ++valid;
+      if (is_valid(cur_passport))
+        ++valid;
       cur_passport.clear();
     } else {
       std::istringstream words(line);
-      std::string word;
-      while (words >> word) {
+      for (std::string word; words >> word;) {
         const auto key = word.substr(0, 3);
-        if (key != "cid") cur_passport.insert(key);
+        if (key != "cid")
+          cur_passport.insert(std::move(key));
       }
     }
   }
 
-  if (is_valid(cur_passport)) ++valid;
+  if (is_valid(cur_passport))
+    ++valid;
 
-  std::cout << valid << '\n';
+  std::cout << valid << std::endl;
 
   return 0;
 }
