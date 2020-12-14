@@ -1,3 +1,4 @@
+#include <array>
 #include <iostream>
 #include <vector>
 
@@ -6,60 +7,63 @@ struct coords {
   int y;
 };
 
-std::vector<coords> around(int y, int x, int height, int width) {
+std::vector<coords> around(const int y, const int x, const int height,
+                           const int width) {
   std::vector<coords> rv{};
 
-  for(int yy = y - 1; yy <= y + 1; ++yy)
-    for(int xx = x - 1; xx <= x + 1; ++xx)
-      if (xx >= 0 && xx < width && yy >= 0 && yy < height && !(xx == x && yy == y))
-        rv.push_back(coords{.x=xx, .y=yy});
+  for (int yy = y - 1; yy <= y + 1; ++yy)
+    for (int xx = x - 1; xx <= x + 1; ++xx)
+      if (xx >= 0 && xx < width && yy >= 0 && yy < height &&
+          !(xx == x && yy == y))
+        rv.push_back(coords{xx, yy});
 
   return rv;
 }
 
-int main()
-{
-  std::vector<std::vector<char>> next_hall{};
-  std::vector<std::vector<char>> hall{};
+int main() {
+  std::array<std::vector<std::vector<char>>, 2> _halls{};
 
-  std::string line;
-  while(std::getline(std::cin, line)) {
-    hall.push_back(std::vector<char>(line.begin(), line.end()));
-  }
-  next_hall = hall;
+  for (std::string line; std::getline(std::cin, line);)
+    _halls[0].push_back(std::vector<char>(line.begin(), line.end()));
+  _halls[1] = _halls[0];
+
+  auto *cur = &_halls[0], *next = &_halls[1];
+
+  const auto height = (int)cur->size();
+  const auto width = (int)(*cur)[0].size();
 
   bool were_changes = true;
   int occupied;
 
-  while(were_changes) {
+  while (were_changes) {
     were_changes = false;
     occupied = 0;
-    for(int row = 0; row < (int)hall.size(); ++row) {
-      for(int col = 0; col < (int)hall[0].size(); ++col) {
+    for (int row = 0; row < height; ++row) {
+      for (int col = 0; col < width; ++col) {
         int neighbors = 0;
-        for(auto c: around(row, col, (int)hall.size(), (int)hall[0].size())) {
-          if (hall[c.y][c.x] == '#')
+        for (auto c : around(row, col, height, width)) {
+          if ((*cur)[c.y][c.x] == '#')
             ++neighbors;
         }
 
-        if (hall[row][col] == '#' && neighbors >= 4) {
-          next_hall[row][col] = 'L';
+        if ((*cur)[row][col] == '#' && neighbors >= 4) {
+          (*next)[row][col] = 'L';
           were_changes = true;
-        } else if (hall[row][col] == 'L' && neighbors == 0) {
-          next_hall[row][col] = '#';
+        } else if ((*cur)[row][col] == 'L' && neighbors == 0) {
+          (*next)[row][col] = '#';
           were_changes = true;
         } else
-          next_hall[row][col] = hall[row][col];
+          (*next)[row][col] = (*cur)[row][col];
 
-        if (next_hall[row][col] == '#')
+        if ((*next)[row][col] == '#')
           ++occupied;
       }
     }
 
-    hall = next_hall;
+    std::swap(cur, next);
   }
 
-  std::cout << occupied << "\n";
+  std::cout << occupied << std::endl;
 
   return 0;
 }
