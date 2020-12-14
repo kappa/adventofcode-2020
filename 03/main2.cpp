@@ -6,8 +6,8 @@ long slope(const int rows, const int columns) {
 
   std::cin.clear();
   std::cin.seekg(0, std::ios::beg);
-  std::string line;
-  while (std::getline(std::cin, line)) {
+
+  for (std::string line; std::getline(std::cin, line);) {
     if (line[column % line.length()] == '#')
       ++trees;
 
@@ -15,10 +15,11 @@ long slope(const int rows, const int columns) {
     column += columns;
 
     // skip some lines
-    for(int i = 0; i < rows - 1; ++i)
-      if (!std::getline(std::cin, line)) goto end;
+    for (int i = 0; i < rows - 1; ++i)
+      if (!std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'))
+        goto end;
   }
- end:
+end:
 
   return trees;
 }
@@ -26,14 +27,14 @@ long slope(const int rows, const int columns) {
 int main()
 {
   const long product =
-    slope(1, 1)
+      slope(1, 1)
     * slope(1, 3)
     * slope(1, 5)
     * slope(1, 7)
     * slope(2, 1)
     ;
 
-  std::cout << product << '\n';
+  std::cout << product << std::endl;
 
   return 0;
 }
