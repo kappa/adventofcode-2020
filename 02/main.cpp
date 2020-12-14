@@ -1,8 +1,7 @@
 #include <algorithm>
 #include <iostream>
 
-int main()
-{
+int main() {
   int valid_passwords = 0;
   for (std::string line; std::getline(std::cin, line);) {
     const int min = std::stoi(line);
