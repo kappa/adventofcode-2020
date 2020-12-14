@@ -1,13 +1,7 @@
-#include <algorithm>
 #include <iostream>
-#include <iterator>
-#include <functional>
-#include <numeric>
-#include <sstream>
 #include <vector>
 
-int main()
-{
+int main() {
   std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
   struct bus_t {
@@ -17,7 +11,7 @@ int main()
   std::vector<bus_t> buses;
 
   std::string w;
-  for(int i = 0; std::getline(std::cin, w, ','); ++i) {
+  for (int i = 0; std::getline(std::cin, w, ','); ++i) {
     if (w != "x") {
       const auto num = std::stoi(w);
       // "i" is remainder, so if it's > num, mod it right away
