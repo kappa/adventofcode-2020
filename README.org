@@ -1,0 +1,4 @@
+* Advent of Code 2020
+  This time I chose to refresh my C++, since I have not really touched it since pre-STL times. I am also a new Emacs convert, so I am doing C++ and Emacs practice at the same time.
+
+  https://adventofcode.com/2020/
