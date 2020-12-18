@@ -3,8 +3,6 @@
 #include <sstream>
 
 int64_t eval(std::string str) {
-  int64_t rv = 0;
-
   std::regex sub_re{"\\([^()]+\\)"};
   std::smatch m{};
 
@@ -22,19 +20,11 @@ int64_t eval(std::string str) {
           std::to_string(std::stol(m[1].str()) + std::stol(m[2].str())) +
           m.suffix().str();
 
+  int64_t rv = 1;
   std::istringstream is(str);
-  char op = '+';
-  for (std::string term{}; std::getline(is, term, ' ');) {
-    if (term == "+" || term == "*")
-      op = term[0];
-    else {
-      const int64_t n = std::stol(term);
-      if (op == '+')
-        rv += n;
-      else
-        rv *= n;
-    }
-  }
+  for (std::string term{}; std::getline(is, term, ' ');)
+    if (term != "*")
+      rv *= std::stol(term);
 
   return rv;
 }
