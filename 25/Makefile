@@ -7,4 +7,4 @@ main-libc: main-asm.o
 	gcc -o main-libc main-asm.o
 
 main-asm: main-asm.o
-	ld -s -o main-asm main-asm.o
+	ld -n -s -o main-asm -e main main-asm.o
